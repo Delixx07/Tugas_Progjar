@@ -45,7 +45,7 @@ def remote_list():
             print(f"- {nmfile}")
         return True
     else:
-        print("Gagal list file di server")
+        print("Gagal")
         return False
 
 def remote_get(filename=""):
@@ -60,41 +60,41 @@ def remote_get(filename=""):
         fp.close()
         return True
     else:
-        print("Gagal mengambil file dari server")
+        print("Gagal")
         return False
-    
-def remote_upload(filename=""):
-    fp = open(f"{filename}",'rb')
-    isifile = base64.b64encode(fp.read()).decode()
-    fp.close()
 
-    command_str=f"UPLOAD {filename} {isifile}\r\n\r\n"
+def remote_upload(filename=""):
+    f = open(filename, 'rb')
+    data = base64.b64encode(f.read()).decode()
+    f.close()
+
+    command_str = f"UPLOAD {filename} {data}\r\n\r\n"
     hasil = send_command(command_str)
-    if (hasil['status']=='OK'):
-        print(f'berhasil mengupload file {filename} ke server')
-        print(f'Jumlah file di server berubah dari {hasil['sum'][0]} menjadi {hasil['sum'][1]}')
+
+    if hasil['status'] == 'OK':
+        print(hasil['data'])
+        print(f"File {filename} berhasil diupload ke server")
         return True
     else:
-        print("Gagal mengupload file ke server")
-        print(f"error: {hasil['data']}")
+        print("Gagal mengupload file,", hasil['data'])
         return False
-        
+
 def remote_delete(filename=""):
-    command_str=f"DELETE {filename}\r\n\r\n"
+    command_str = f"DELETE {filename}\r\n\r\n"
     hasil = send_command(command_str)
-    if (hasil['status']=='OK'):
-        print(f'berhasil menghapus file {filename} dari server')
-        print(f'Jumlah file di server berubah dari {hasil['sum'][0]} menjadi {hasil['sum'][1]}')
+    if hasil['status'] == 'OK':
+        print(hasil['data'])
+        print(f"File {filename} berhasil didelete dari server")
         return True
     else:
-        print("Gagal menghapus file di server")
-        print(f"error: {hasil['data']}")
+        print("Gagal menghapus file,", hasil['data'])
         return False
 
 
 if __name__=='__main__':
-    server_address=('localhost',6666)
-    # remote_list() # working
-    # remote_get('pokijan.jpg') # working
-    remote_upload('donalbebek.jpg')
-    # remote_delete('pokijan.jpg') # working
+    server_address=('172.16.16.101',6666)
+    remote_list()
+    remote_delete('pokijan.jpg')
+    remote_list()
+    remote_upload('files/pokijan.jpg')
+    remote_list()
