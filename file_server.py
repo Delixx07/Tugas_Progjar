@@ -5,7 +5,6 @@ import logging
 import time
 import sys
 
-
 from file_protocol import  FileProtocol
 fp = FileProtocol()
 
