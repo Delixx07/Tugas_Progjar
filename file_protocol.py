@@ -17,7 +17,6 @@ string
 """
 
 
-
 class FileProtocol:
     def __init__(self):
         self.file = FileInterface()
