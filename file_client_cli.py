@@ -93,6 +93,7 @@ def remote_delete(filename=""):
 
 if __name__=='__main__':
     server_address=('172.16.16.101',6666)
+    #remote_get('pokijan.jpg')
     remote_list()
     remote_delete('pokijan.jpg')
     remote_list()
